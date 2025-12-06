@@ -1,0 +1,7 @@
+run_id,seed,network_type,network_kwargs,n_nodes,a0,ratio,beta_I,b,g_I,I0,X0_frac,init_method,strategy_choice_func,tau,policy,seeded_nodes,X_final,I_final,steps_run,converged,network_label
+0,555,grid,{},80,1.7,1.8,2.0,1.0,0.08,0.05,0.15,random,imitate,1.0,none,12,0.0,0.04324,2,True,grid
+1,556,grid,{},80,1.7,1.8,2.0,1.0,0.08,0.05,0.15,random,imitate,1.0,none,12,0.0,0.046,1,True,grid
+2,557,small_world,"{""k"": 6, ""rewiring_p"": 0.05}",80,1.7,1.8,2.0,1.0,0.08,0.05,0.15,random,imitate,1.0,none,12,0.0,0.046,1,True,small_world
+3,558,small_world,"{""k"": 6, ""rewiring_p"": 0.05}",80,1.7,1.8,2.0,1.0,0.08,0.05,0.15,random,imitate,1.0,none,12,0.0,0.046,1,True,small_world
+4,559,erdos_renyi,"{""p"": 0.05}",80,1.7,1.8,2.0,1.0,0.08,0.05,0.15,random,imitate,1.0,none,12,0.0,0.046,1,True,erdos_renyi
+5,560,erdos_renyi,"{""p"": 0.05}",80,1.7,1.8,2.0,1.0,0.08,0.05,0.15,random,imitate,1.0,none,12,0.0,0.046,1,True,erdos_renyi

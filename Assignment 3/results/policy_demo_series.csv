@@ -1,0 +1,11 @@
+run_id,time,X,I,policy,policy_label
+0,0,0.0,0.0184,none,baseline
+1,0,0.0,0.0184,none,baseline
+2,0,0.0,0.06440000000000001,targeted_seed:degree:4,early_hubs_seed
+3,0,0.0,0.06440000000000001,targeted_seed:degree:4,early_hubs_seed
+4,0,0.0,0.0184,targeted_seed:degree:4,mid_hubs_seed
+5,0,0.0,0.0184,targeted_seed:degree:4,mid_hubs_seed
+6,0,0.0,0.0184,"infra:{'start': 10, 'boost': 0.15, 'once': True}",infra_shock
+7,0,0.0,0.0184,"infra:{'start': 10, 'boost': 0.15, 'once': True}",infra_shock
+8,0,0.0,0.0184,"subsidy:{'start': 5, 'end': 40, 'delta_a0': 0.3, 'delta_beta_I': 0.0}",time_limited_subsidy
+9,0,0.0,0.0184,"subsidy:{'start': 5, 'end': 40, 'delta_a0': 0.3, 'delta_beta_I': 0.0}",time_limited_subsidy
