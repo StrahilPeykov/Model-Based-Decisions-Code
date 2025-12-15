@@ -3,7 +3,11 @@ Policy intervention experiments (Part 3).
 
 Defines a few targeted/timed interventions and runs them against a
 baseline scenario or multiple bistable/tipping scenarios. 
-Results are saved as CSVs for later plotting.
+
+Sweeps over policy intensities and timings
+Runs across multiple network structures
+Adds (policy) cost proxy and parameter columns
+Writes CSVs
 """
 
 from __future__ import annotations
@@ -28,39 +32,77 @@ def _kwargs_for_type(net_type: str, args: argparse.Namespace) -> Dict:
         return {}
     return {}
 
+def _policy_cost(meta: Dict, n_nodes: int) -> float:
+    """Cheap comparable cost proxy"""
+    ptype = meta.get("ptype")
+    if ptype == "targeted_seed":
+        frac = float(meta["fraction"])
+        dur = int(meta["duration"])
+        k = int(round(frac*n_nodes))
+        return float(k*dur)
+    if ptype == "subsidy":
+        dur = int(meta["duration"])
+        da0 = float(meta["delta_a0"])
+        return float(dur*da0)
+    if ptype == "infrastructure":
+        return float(meta["boost"])
+    return 0.0
+
 def _policies(args: argparse.Namespace) -> List[Tuple[str, Dict | None]]:
     """Return a list of (label, policy_config) pairs."""
-    return [
-        ("baseline", None),
-        (
-            "early_hubs_seed",
-            {
-                "type": "targeted_seed",
-                "params": {"fraction": 0.05, "metric": "degree", "start": 0, "duration": 10, "lock": True, "infrastructure_boost": 0.05},
-            },
-        ),
-        (
-            "mid_hubs_seed",
-            {
-                "type": "targeted_seed",
-                "params": {"fraction": 0.05, "metric": "degree", "start": 25, "duration": 10, "lock": True, "infrastructure_boost": 0.0},
-            },
-        ),
-        (
-            "infra_shock",
-            {
-                "type": "infrastructure",
-                "params": {"start": 10, "boost": 0.15, "once": True},
-            },
-        ),
-        (
-            "time_limited_subsidy",
-            {
-                "type": "subsidy",
-                "params": {"start": 5, "end": 40, "delta_a0": 0.3, "delta_beta_I": 0.0},
-            },
-        ),
-    ]
+    policies: List[Tuple[str, Dict | None, Dict]] = [("baseline", None, {"ptype": "baseline"})]
+
+    for frac in args.seed_fracs:
+        for start in args.seed_starts:
+            for dur in args.seed_durations:
+                label = f"seed:{args.seed_metric}:f{frac}:s{start}:d{dur}:lock{int(args.seed_lock)}"
+                cfg = {
+                    "type": "targeted_seed",
+                    "params": {
+                        "fraction": float(frac),
+                        "metric": args.seed_metric,
+                        "start": int(start),
+                        "duration": int(dur),
+                        "lock": bool(args.seed_lock),
+                        "infrastructure_boost": 0.0,
+                    },
+                }
+                meta = {
+                    "ptype": "targeted_seed",
+                    "metric": args.seed_metric,
+                    "fraction": float(frac),
+                    "start": int(start),
+                    "duration": int(dur),
+                    "lock": bool(args.seed_lock),
+                }
+                policies.append((label, cfg, meta))
+
+    for da0 in args.subsidy_delta_a0:
+        for start in args.subsidy_starts:
+            for dur in args.subsidy_durations:
+                end = int(start) + int(dur)
+                label = f"subsidy:da0{da0}:s{start}:d{dur}"
+                cfg = {
+                    "type": "subsidy",
+                    "params": {
+                        "start": int(start),
+                        "end": end,
+                        "delta_a0": float(da0),
+                        "delta_beta_I": 0.0,
+                    },
+                }
+                meta = {"ptype": "subsidy", "delta_a0": float(da0), "start": int(start), "duration": int(dur)}
+                policies.append((label, cfg, meta))
+
+    for boost in args.infra_boosts:
+        for start in args.infra_starts:
+            label = f"infra:boost{boost}:s{start}"
+            cfg = {"type": "infrastructure", "params": {"start": int(start), "boost": float(boost), "once": True}}
+            meta = {"ptype": "infrastructure", "boost": float(boost), "start": int(start), "duration": 1}
+            policies.append((label, cfg, meta))
+
+    return policies
+
 
 def _load_scenarios(args: argparse.Namespace) -> List[Dict]:
     scenarios: List[Dict] = []
@@ -136,6 +178,17 @@ def main():
     parser.add_argument("--series-output", type=str, default="results/policy_timeseries.csv")
     parser.add_argument("--baseline-summary", type=str, default=None)
     parser.add_argument("--pick-bistable", type=int, default=0)
+    parser.add_argument("--seed-fracs", type=float, nargs="+", default=[0.01, 0.03, 0.05, 0.10])
+    parser.add_argument("--seed-starts", type=int, nargs="+", default=[0, 25, 50])
+    parser.add_argument("--seed-durations", type=int, nargs="+", default=[5, 10, 25])
+    parser.add_argument("--seed-metric", type=str, default="degree")
+    parser.add_argument("--seed-lock", action="store_true")
+    parser.add_argument("--subsidy-delta-a0", type=float, nargs="+", default=[0.1, 0.3, 0.6])
+    parser.add_argument("--subsidy-starts", type=int, nargs="+", default=[0, 10, 25])
+    parser.add_argument("--subsidy-durations", type=int, nargs="+", default=[10, 25, 50])
+    parser.add_argument("--infra-boosts", type=float, nargs="+", default=[0.05, 0.15, 0.30])
+    parser.add_argument("--infra-starts", type=int, nargs="+", default=[0, 10, 25])
+
     args = parser.parse_args()
 
     scenarios = _load_scenarios(args)
@@ -147,7 +200,7 @@ def main():
     for scenario in scenarios:
         for net_type in args.network_types:
             network_kwargs = _kwargs_for_type(net_type, args)
-            for label, policy in policies:
+            for label, policy, meta in policies:
                 for rep in range(args.reps):
                     seed = args.seed_base + run_id
                     config = SimulationConfig(
@@ -175,6 +228,12 @@ def main():
                         patience=30,
                         record_series=args.collect_series,
                     )
+                    row["policy_label"] = label
+                    row["policy_type"] = meta.get("ptype")
+                    row["policy_cost"] = _policy_cost(meta, args.n_nodes)
+                    for k in ("metric", "fraction", "start", "duration", "delta_a0", "boost", "lock"):
+                        if k in meta:
+                            row[f"policy_{k}"] = meta[k]
                     row.update(
                         {
                             "scenario_id": scenario["scenario_id"],
@@ -217,9 +276,11 @@ def main():
             X_mean=("X_final", "mean"),
             X_std=("X_final", "std"),
             cluster_max_mean=("cluster_max_final", "mean"),
+            cost_mean=("policy_cost", "mean"),
         )
         .reset_index()
     )
+    summary["p_high_per_cost"] = summary["p_high"] / summary["cost_mean"].replace(0, pd.NA)
     summary_path = runs_path.with_name(runs_path.stem + "_summary.csv")
     summary.to_csv(summary_path, index=False)
     print(f"Saved summary to {summary_path}")
