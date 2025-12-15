@@ -12,14 +12,22 @@ Writes CSVs
 
 from __future__ import annotations
 
+import sys
+from pathlib import Path
+
+current_dir = Path(__file__).parent
+parent_dir = current_dir.parent
+if str(parent_dir) not in sys.path:
+    sys.path.insert(0, str(parent_dir))
+
 import argparse
 from pathlib import Path
 from typing import Dict, List, Tuple
 
 import pandas as pd
 
-from sim_utils import SimulationConfig, run_simulation
-from run_baseline_sweeps import _network_kwargs_from_args
+from .sim_utils import SimulationConfig, run_simulation
+from .run_baseline_sweeps import _network_kwargs_from_args
 
 def _kwargs_for_type(net_type: str, args: argparse.Namespace) -> Dict:
     if net_type == "erdos_renyi":

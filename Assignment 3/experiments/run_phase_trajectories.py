@@ -7,14 +7,22 @@ infrastructure) and stores both the summary rows and full trajectories.
 
 from __future__ import annotations
 
+import sys
+from pathlib import Path
+
+current_dir = Path(__file__).parent
+parent_dir = current_dir.parent
+if str(parent_dir) not in sys.path:
+    sys.path.insert(0, str(parent_dir))
+
 import argparse
 from pathlib import Path
 from typing import Dict, List, Tuple
 
 import pandas as pd
 
-from experiments.sim_utils import SimulationConfig, run_simulation
-from experiments.run_baseline_sweeps import _network_kwargs_from_args
+from .sim_utils import SimulationConfig, run_simulation
+from .run_baseline_sweeps import _network_kwargs_from_args
 
 
 def _scenario_cases(args: argparse.Namespace) -> List[Tuple[str, SimulationConfig]]:

@@ -7,13 +7,21 @@ many trials per type and saving a tidy CSV.
 
 from __future__ import annotations
 
+import sys
+from pathlib import Path
+
+current_dir = Path(__file__).parent
+parent_dir = current_dir.parent
+if str(parent_dir) not in sys.path:
+    sys.path.insert(0, str(parent_dir))
+
 import argparse
 from pathlib import Path
 from typing import Dict, List
 
 import pandas as pd
 
-from sim_utils import SimulationConfig, run_simulation
+from .sim_utils import SimulationConfig, run_simulation
 
 
 def _kwargs_for_type(net_type: str, args: argparse.Namespace) -> Dict:
