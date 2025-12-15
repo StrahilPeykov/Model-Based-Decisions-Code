@@ -29,8 +29,8 @@ from mesa.time import SimultaneousActivation
 from mesa.space import NetworkGrid
 from mesa.datacollection import DataCollector
 
-from ev_core_fix import EVAgent
-from ev_experiments_fix import policy_subsidy_factory, policy_infrastructure_boost_factory
+from ev_core import EVAgent
+from ev_experiments import policy_subsidy_factory, policy_infrastructure_boost_factory
 from networks import build_network, rank_nodes_by_centrality, select_top_fraction
 
 
