@@ -31,7 +31,7 @@ from mesa.datacollection import DataCollector
 
 from ev_core import EVAgent
 from ev_experiments import policy_subsidy_factory, policy_infrastructure_boost_factory
-from .networks import build_network, rank_nodes_by_centrality, select_top_fraction
+from networks import build_network, rank_nodes_by_centrality, select_top_fraction
 
 
 def _clip01(x: float) -> float:
@@ -325,6 +325,7 @@ def run_simulation(
         if stable_steps >= patience or X in (0.0, 1.0):
             converged = True
             break
+        pass
 
     X_final = float(model.get_adoption_fraction())
     

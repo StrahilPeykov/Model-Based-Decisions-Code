@@ -22,7 +22,7 @@ from typing import Dict, List
 import numpy as np
 import pandas as pd
 
-from .sim_utils import SimulationConfig, run_simulation
+from sim_utils import SimulationConfig, run_simulation
 
 
 def _network_kwargs_from_args(args: argparse.Namespace) -> Dict:

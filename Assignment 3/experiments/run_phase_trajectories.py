@@ -19,8 +19,8 @@ if str(parent_dir) not in sys.path:
 import argparse
 import pandas as pd
 
-from .sim_utils import SimulationConfig, run_simulation
-from .run_baseline_sweeps import _network_kwargs_from_args
+from sim_utils import SimulationConfig, run_simulation
+from run_baseline_sweeps import _network_kwargs_from_args
 
 
 def _phase_cases(args: argparse.Namespace, net_type: str) -> List[Tuple[str, SimulationConfig]]:

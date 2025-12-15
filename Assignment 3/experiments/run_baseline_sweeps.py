@@ -23,7 +23,7 @@ from typing import Dict, List, Optional
 import numpy as np
 import pandas as pd
 
-from .sim_utils import SimulationConfig, run_simulation
+from sim_utils import SimulationConfig, run_simulation
 
 
 def _network_kwargs_from_args(args: argparse.Namespace) -> Dict:
@@ -48,7 +48,7 @@ def _first_crossing_time(series: Optional[List[Dict[str, float]]], threshold: fl
 def main():
     parser = argparse.ArgumentParser(description="Baseline sweep over X0, I0, beta_I.")
     parser.add_argument("--horizon", type=int, default=200, help="Time steps per run.")
-    parser.add_argument("--reps", type=int, default=5, help="Trials per grid cell.")
+    parser.add_argument("--reps", type=int, default=15, help="Trials per grid cell.")
     parser.add_argument("--seed-base", type=int, default=123, help="Base seed for runs.")
     parser.add_argument("--network-type", type=str, default="erdos_renyi", help="Network type (erdos_renyi|barabasi_albert|small_world|grid).")
     parser.add_argument("--n-nodes", type=int, default=300, help="Number of agents.")
@@ -56,19 +56,19 @@ def main():
     parser.add_argument("--m", type=int, default=2, help="Edges per new node (BA).")
     parser.add_argument("--k", type=int, default=6, help="Mean degree (small-world).")
     parser.add_argument("--rewiring-p", type=float, default=0.05, help="Rewiring prob (small-world).")
-    parser.add_argument("--ratio", type=float, default=1.4, help="Initial payoff ratio a_I/b.")
-    parser.add_argument("--beta-list", type=float, nargs="+", default=[0.6, 0.8, 1.0, 1.2], help="beta_I values to sweep.")
+    parser.add_argument("--ratio", type=float, default=1.3, help="Initial payoff ratio a_I/b.")
+    parser.add_argument("--beta-list", type=float, nargs="+", default=[0.7, 0.8, 0.9], help="beta_I values to sweep.")
     parser.add_argument("--b", type=float, default=1.0, help="Defection payoff.")
     parser.add_argument("--g-i", type=float, default=0.08, help="Infrastructure adjustment rate.")
-    parser.add_argument("--x0-min", type=float, default=0.02)
-    parser.add_argument("--x0-max", type=float, default=0.20)
+    parser.add_argument("--x0-min", type=float, default=0.04)
+    parser.add_argument("--x0-max", type=float, default=0.12)
     parser.add_argument("--x0-points", type=int, default=7)
-    parser.add_argument("--i0-min", type=float, default=0.01)
-    parser.add_argument("--i0-max", type=float, default=0.08)
+    parser.add_argument("--i0-min", type=float, default=0.02)
+    parser.add_argument("--i0-max", type=float, default=0.06)
     parser.add_argument("--i0-points", type=int, default=7)
     parser.add_argument("--init-method", type=str, default="random", help="random|degree_high|degree_low|centrality")
-    parser.add_argument("--strategy", type=str, default="imitate", help="imitate|logit")
-    parser.add_argument("--tau", type=float, default=1.0, help="Logit temperature.")
+    parser.add_argument("--strategy", type=str, default="logit", help="imitate|logit")
+    parser.add_argument("--tau", type=float, default=0.2, help="Logit temperature.")
     parser.add_argument("--output", type=str, default="results/baseline_sweep.csv", help="Path to save CSV.")
     args = parser.parse_args()
 
@@ -147,7 +147,12 @@ def main():
         )
         .reset_index()
     )
-    summary["bistable"] = ((summary["p_high"] >= 0.2) & (summary["p_high"] <= 0.8)).astype(int)
+    summary["bistable"] = (
+    (summary["X_std"] > 0.15) &
+    (summary["X_mean"] > 0.15) &
+    (summary["X_mean"] < 0.85)
+    ).astype(int)
+
 
     summary_path = out_path.with_name(out_path.stem + "_summary.csv")
     summary.to_csv(summary_path, index=False)
