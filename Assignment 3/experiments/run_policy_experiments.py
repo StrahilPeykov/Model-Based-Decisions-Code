@@ -48,7 +48,7 @@ def _policy_cost(meta: Dict, n_nodes: int) -> float:
         return float(meta["boost"])
     return 0.0
 
-def _policies(args: argparse.Namespace) -> List[Tuple[str, Dict | None]]:
+def _policies(args: argparse.Namespace) -> List[Tuple[str, Dict | None, Dict]]:
     """Return a list of (label, policy_config) pairs."""
     policies: List[Tuple[str, Dict | None, Dict]] = [("baseline", None, {"ptype": "baseline"})]
 
@@ -149,6 +149,21 @@ def _load_scenarios(args: argparse.Namespace) -> List[Dict]:
             }
         )
 
+    # tag hard regimes
+    hard = df[df["p_high"] < 0.1].copy()
+    hard = hard.sort_values("X_mean" if "X_mean" in df.columns else "X_final")
+    hard = hard.head(args.pick_hard)
+
+    for sid, (orig_idx, row) in enumerate(hard.iterrows(), start=len(scenarios)):
+        scenarios.append({
+            "scenario_id": sid,
+            "baseline_cell_id": int(orig_idx),
+            "beta_I": float(row["beta_I_grid"]),
+            "X0": float(row["X0"]),
+            "I0": float(row["I0_grid"]),
+            "scenario_type": "hard"
+        })
+
     print(f"Loaded {len(scenarios)} scenarios from {args.baseline_summary}")
     return scenarios
 
@@ -188,6 +203,7 @@ def main():
     parser.add_argument("--subsidy-durations", type=int, nargs="+", default=[10, 25, 50])
     parser.add_argument("--infra-boosts", type=float, nargs="+", default=[0.05, 0.15, 0.30])
     parser.add_argument("--infra-starts", type=int, nargs="+", default=[0, 10, 25])
+    parser.add_argument("--pick-hard", type=int, default=0, help="Pick hard regimes from baseline summary.")
 
     args = parser.parse_args()
 
@@ -281,6 +297,10 @@ def main():
         .reset_index()
     )
     summary["p_high_per_cost"] = summary["p_high"] / summary["cost_mean"].replace(0, pd.NA)
+    summary["ineffective"] = summary["p_high"] < 0.2
+    summary["inefficient"] = summary["p_high_per_cost"] < summary["p_high_per_cost"].median()
+
+
     summary_path = runs_path.with_name(runs_path.stem + "_summary.csv")
     summary.to_csv(summary_path, index=False)
     print(f"Saved summary to {summary_path}")

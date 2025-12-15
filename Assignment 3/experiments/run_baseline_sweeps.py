@@ -8,6 +8,14 @@ optionally over multiple beta_I values, and stores one row per run in
 
 from __future__ import annotations
 
+import sys
+from pathlib import Path
+
+current_dir = Path(__file__).parent
+parent_dir = current_dir.parent
+if str(parent_dir) not in sys.path:
+    sys.path.insert(0, str(parent_dir))
+
 import argparse
 from pathlib import Path
 from typing import Dict, List, Optional
@@ -15,7 +23,7 @@ from typing import Dict, List, Optional
 import numpy as np
 import pandas as pd
 
-from experiments.sim_utils import SimulationConfig, run_simulation
+from sim_utils import SimulationConfig, run_simulation
 
 
 def _network_kwargs_from_args(args: argparse.Namespace) -> Dict:
