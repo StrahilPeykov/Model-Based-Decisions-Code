@@ -17,7 +17,7 @@ import pandas as pd
 import matplotlib.pyplot as plt
 from concurrent.futures import ProcessPoolExecutor, ThreadPoolExecutor, as_completed
 
-from ev_core import (
+from ev_core_fix import (
     EVStagHuntModel,
     set_initial_adopters,
     final_mean_adoption_vs_ratio,
