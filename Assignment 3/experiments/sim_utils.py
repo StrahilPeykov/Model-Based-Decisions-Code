@@ -29,6 +29,19 @@ from experiments.networks import build_network, rank_nodes_by_centrality, select
 def _clip01(x: float) -> float:
     return float(min(1.0, max(0.0, x)))
 
+def _adopter_cluster_stats(G: nx.Graph, adopter_nodes: List[int]) -> Dict[str, float]:
+    """Connected-component statistics on the adopter-induced subgraph."""
+    if not adopter_nodes:
+        return {"clusters_n": 0, "cluster_max": 0, "cluster_mean": 0.0}
+
+    H = G.subgraph(adopter_nodes)
+    comps = list(nx.connected_components(H))
+    sizes = [len(c) for c in comps]
+    return {
+        "clusters_n": int(len(sizes)),
+        "cluster_max": int(max(sizes)) if sizes else 0,
+        "cluster_mean": float(sum(sizes) / len(sizes)) if sizes else 0.0,
+    }
 
 @dataclass
 class SimulationConfig:
@@ -275,9 +288,8 @@ def run_simulation(
     prev_I = None
     converged = False
     steps_run = 0
-    t_high = None
-    t_half = None
-
+    t_high: Optional[int] = None
+    t_half: Optional[int] = None
 
     for t in range(config.T):
         if policy is not None:
@@ -290,7 +302,6 @@ def run_simulation(
             t_half = t
         if t_high is None and X >= 0.8:
             t_high = t
-
 
         if record_series:
             timeseries.append({"run_id": run_id, "time": t, "X": X, "I": I, "policy": policy_label})
@@ -308,6 +319,11 @@ def run_simulation(
             break
 
     X_final = float(model.get_adoption_fraction())
+    
+    # cluster stats at final time
+    adopter_nodes = [a.pos for a in model.schedule.agents if a.strategy == "C"]
+    cstats = _adopter_cluster_stats(G, adopter_nodes)
+
     result_row = {
         "run_id": run_id,
         "seed": seed,
@@ -333,6 +349,9 @@ def run_simulation(
         "high_adoption": int(X_final > 0.8),
         "t_half": t_half,
         "t_high": t_high,
+        "clusters_n_final": cstats["clusters_n"],
+        "cluster_max_final": cstats["cluster_max"],
+        "cluster_mean_final": cstats["cluster_mean"],
     }
 
     return result_row, timeseries if record_series else None
