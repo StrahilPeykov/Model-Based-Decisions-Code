@@ -1,0 +1,5 @@
+scenario_id,network_label,n,p_high,t_high_mean,X_mean,X_std,cluster_max_mean
+0,barabasi_albert,25,0.2,4.8,0.21186666666666668,0.4054468042926361,63.56
+0,erdos_renyi,25,0.96,6.916666666666667,0.9608,0.1869845507581368,287.8
+0,grid,25,1.0,0.84,1.0,0.0,289.0
+0,small_world,25,1.0,2.68,1.0,0.0,300.0

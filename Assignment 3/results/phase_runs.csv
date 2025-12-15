@@ -1,0 +1,121 @@
+run_id,seed,network_type,network_kwargs,n_nodes,a0,ratio,beta_I,b,g_I,I0,X0_frac,init_method,strategy_choice_func,tau,policy,seeded_nodes,steps_run,converged,X_final,I_final,high_adoption,t_half,t_high,clusters_n_final,cluster_max_final,cluster_mean_final,network_label,scenario
+0,999,grid,{},300,2.16,2.2,2.0,1.0,0.08,0.02,0.05,random,logit,0.2,none,14,1,True,0.0,0.0184,0,,,0,0,0.0,grid,low_seed
+1,1000,grid,{},300,2.16,2.2,2.0,1.0,0.08,0.02,0.05,random,logit,0.2,none,14,10,True,1.0,0.47239060948978373,1,2.0,3.0,1,289,289.0,grid,low_seed
+2,1001,grid,{},300,2.16,2.2,2.0,1.0,0.08,0.02,0.05,random,logit,0.2,none,14,1,True,0.0,0.0184,0,,,0,0,0.0,grid,low_seed
+3,1002,grid,{},300,2.16,2.2,2.0,1.0,0.08,0.02,0.05,random,logit,0.2,none,14,1,True,0.0,0.0184,0,,,0,0,0.0,grid,low_seed
+4,1003,grid,{},300,2.16,2.2,2.0,1.0,0.08,0.02,0.05,random,logit,0.2,none,14,1,True,0.0,0.0184,0,,,0,0,0.0,grid,low_seed
+5,1004,grid,{},300,2.16,2.2,2.0,1.0,0.08,0.02,0.05,random,logit,0.2,none,14,1,True,0.0,0.0184,0,,,0,0,0.0,grid,low_seed
+6,1005,grid,{},300,2.16,2.2,2.0,1.0,0.08,0.02,0.05,random,logit,0.2,none,14,1,True,0.0,0.0184,0,,,0,0,0.0,grid,low_seed
+7,1006,grid,{},300,2.16,2.2,2.0,1.0,0.08,0.02,0.05,random,logit,0.2,none,14,1,True,0.0,0.0184,0,,,0,0,0.0,grid,low_seed
+8,1007,grid,{},300,2.16,2.2,2.0,1.0,0.08,0.02,0.05,random,logit,0.2,none,14,1,True,0.0,0.0184,0,,,0,0,0.0,grid,low_seed
+9,1008,grid,{},300,2.16,2.2,2.0,1.0,0.08,0.02,0.05,random,logit,0.2,none,14,1,True,0.0,0.0184,0,,,0,0,0.0,grid,low_seed
+10,1009,grid,{},300,2.14,2.2,2.0,1.0,0.08,0.03,0.08,random,logit,0.2,none,23,1,True,0.0,0.0276,0,,,0,0,0.0,grid,mid_seed
+11,1010,grid,{},300,2.14,2.2,2.0,1.0,0.08,0.03,0.08,random,logit,0.2,none,23,1,True,0.0,0.0276,0,,,0,0,0.0,grid,mid_seed
+12,1011,grid,{},300,2.14,2.2,2.0,1.0,0.08,0.03,0.08,random,logit,0.2,none,23,6,True,1.0,0.3280307590980916,1,1.0,2.0,1,289,289.0,grid,mid_seed
+13,1012,grid,{},300,2.14,2.2,2.0,1.0,0.08,0.03,0.08,random,logit,0.2,none,23,15,True,1.0,0.5788027870904849,1,5.0,6.0,1,289,289.0,grid,mid_seed
+14,1013,grid,{},300,2.14,2.2,2.0,1.0,0.08,0.03,0.08,random,logit,0.2,none,23,14,True,1.0,0.5400417983629189,1,5.0,6.0,1,289,289.0,grid,mid_seed
+15,1014,grid,{},300,2.14,2.2,2.0,1.0,0.08,0.03,0.08,random,logit,0.2,none,23,1,True,0.0,0.0276,0,,,0,0,0.0,grid,mid_seed
+16,1015,grid,{},300,2.14,2.2,2.0,1.0,0.08,0.03,0.08,random,logit,0.2,none,23,1,True,0.0,0.0276,0,,,0,0,0.0,grid,mid_seed
+17,1016,grid,{},300,2.14,2.2,2.0,1.0,0.08,0.03,0.08,random,logit,0.2,none,23,1,True,0.0,0.0276,0,,,0,0,0.0,grid,mid_seed
+18,1017,grid,{},300,2.14,2.2,2.0,1.0,0.08,0.03,0.08,random,logit,0.2,none,23,19,True,1.0,0.6601010093255886,1,5.0,9.0,1,289,289.0,grid,mid_seed
+19,1018,grid,{},300,2.14,2.2,2.0,1.0,0.08,0.03,0.08,random,logit,0.2,none,23,1,True,0.0,0.0276,0,,,0,0,0.0,grid,mid_seed
+20,1019,grid,{},300,2.12,2.2,2.0,1.0,0.08,0.04,0.12,random,logit,0.2,none,35,7,True,1.0,0.37501224581995607,1,2.0,2.0,1,289,289.0,grid,high_seed
+21,1020,grid,{},300,2.12,2.2,2.0,1.0,0.08,0.04,0.12,random,logit,0.2,none,35,15,True,1.0,0.5291441091089103,1,6.0,9.0,1,289,289.0,grid,high_seed
+22,1021,grid,{},300,2.12,2.2,2.0,1.0,0.08,0.04,0.12,random,logit,0.2,none,35,18,True,1.0,0.6286189969087563,1,6.0,8.0,1,289,289.0,grid,high_seed
+23,1022,grid,{},300,2.12,2.2,2.0,1.0,0.08,0.04,0.12,random,logit,0.2,none,35,1,True,0.0,0.0368,0,,,0,0,0.0,grid,high_seed
+24,1023,grid,{},300,2.12,2.2,2.0,1.0,0.08,0.04,0.12,random,logit,0.2,none,35,6,True,1.0,0.3305882596198223,1,2.0,2.0,1,289,289.0,grid,high_seed
+25,1024,grid,{},300,2.12,2.2,2.0,1.0,0.08,0.04,0.12,random,logit,0.2,none,35,15,True,1.0,0.551608409503458,1,6.0,8.0,1,289,289.0,grid,high_seed
+26,1025,grid,{},300,2.12,2.2,2.0,1.0,0.08,0.04,0.12,random,logit,0.2,none,35,22,True,1.0,0.6804386409327555,1,7.0,12.0,1,289,289.0,grid,high_seed
+27,1026,grid,{},300,2.12,2.2,2.0,1.0,0.08,0.04,0.12,random,logit,0.2,none,35,17,True,1.0,0.6232610867535625,1,5.0,8.0,1,289,289.0,grid,high_seed
+28,1027,grid,{},300,2.12,2.2,2.0,1.0,0.08,0.04,0.12,random,logit,0.2,none,35,11,True,1.0,0.4549332442350956,1,3.0,7.0,1,289,289.0,grid,high_seed
+29,1028,grid,{},300,2.12,2.2,2.0,1.0,0.08,0.04,0.12,random,logit,0.2,none,35,11,True,1.0,0.3295921391319667,1,8.0,8.0,1,289,289.0,grid,high_seed
+30,1029,small_world,"{""k"": 6, ""rewiring_p"": 0.05}",300,2.16,2.2,2.0,1.0,0.08,0.02,0.05,random,logit,0.2,none,15,1,True,0.0,0.0184,0,,,0,0,0.0,small_world,low_seed
+31,1030,small_world,"{""k"": 6, ""rewiring_p"": 0.05}",300,2.16,2.2,2.0,1.0,0.08,0.02,0.05,random,logit,0.2,none,15,1,True,0.0,0.0184,0,,,0,0,0.0,small_world,low_seed
+32,1031,small_world,"{""k"": 6, ""rewiring_p"": 0.05}",300,2.16,2.2,2.0,1.0,0.08,0.02,0.05,random,logit,0.2,none,15,1,True,0.0,0.0184,0,,,0,0,0.0,small_world,low_seed
+33,1032,small_world,"{""k"": 6, ""rewiring_p"": 0.05}",300,2.16,2.2,2.0,1.0,0.08,0.02,0.05,random,logit,0.2,none,15,1,True,0.0,0.0184,0,,,0,0,0.0,small_world,low_seed
+34,1033,small_world,"{""k"": 6, ""rewiring_p"": 0.05}",300,2.16,2.2,2.0,1.0,0.08,0.02,0.05,random,logit,0.2,none,15,1,True,0.0,0.0184,0,,,0,0,0.0,small_world,low_seed
+35,1034,small_world,"{""k"": 6, ""rewiring_p"": 0.05}",300,2.16,2.2,2.0,1.0,0.08,0.02,0.05,random,logit,0.2,none,15,1,True,0.0,0.0184,0,,,0,0,0.0,small_world,low_seed
+36,1035,small_world,"{""k"": 6, ""rewiring_p"": 0.05}",300,2.16,2.2,2.0,1.0,0.08,0.02,0.05,random,logit,0.2,none,15,1,True,0.0,0.0184,0,,,0,0,0.0,small_world,low_seed
+37,1036,small_world,"{""k"": 6, ""rewiring_p"": 0.05}",300,2.16,2.2,2.0,1.0,0.08,0.02,0.05,random,logit,0.2,none,15,1,True,0.0,0.0184,0,,,0,0,0.0,small_world,low_seed
+38,1037,small_world,"{""k"": 6, ""rewiring_p"": 0.05}",300,2.16,2.2,2.0,1.0,0.08,0.02,0.05,random,logit,0.2,none,15,1,True,0.0,0.0184,0,,,0,0,0.0,small_world,low_seed
+39,1038,small_world,"{""k"": 6, ""rewiring_p"": 0.05}",300,2.16,2.2,2.0,1.0,0.08,0.02,0.05,random,logit,0.2,none,15,1,True,0.0,0.0184,0,,,0,0,0.0,small_world,low_seed
+40,1039,small_world,"{""k"": 6, ""rewiring_p"": 0.05}",300,2.14,2.2,2.0,1.0,0.08,0.03,0.08,random,logit,0.2,none,24,1,True,0.0,0.0276,0,,,0,0,0.0,small_world,mid_seed
+41,1040,small_world,"{""k"": 6, ""rewiring_p"": 0.05}",300,2.14,2.2,2.0,1.0,0.08,0.03,0.08,random,logit,0.2,none,24,1,True,0.0,0.0276,0,,,0,0,0.0,small_world,mid_seed
+42,1041,small_world,"{""k"": 6, ""rewiring_p"": 0.05}",300,2.14,2.2,2.0,1.0,0.08,0.03,0.08,random,logit,0.2,none,24,1,True,0.0,0.0276,0,,,0,0,0.0,small_world,mid_seed
+43,1042,small_world,"{""k"": 6, ""rewiring_p"": 0.05}",300,2.14,2.2,2.0,1.0,0.08,0.03,0.08,random,logit,0.2,none,24,1,True,0.0,0.0276,0,,,0,0,0.0,small_world,mid_seed
+44,1043,small_world,"{""k"": 6, ""rewiring_p"": 0.05}",300,2.14,2.2,2.0,1.0,0.08,0.03,0.08,random,logit,0.2,none,24,1,True,0.0,0.0276,0,,,0,0,0.0,small_world,mid_seed
+45,1044,small_world,"{""k"": 6, ""rewiring_p"": 0.05}",300,2.14,2.2,2.0,1.0,0.08,0.03,0.08,random,logit,0.2,none,24,1,True,0.0,0.0276,0,,,0,0,0.0,small_world,mid_seed
+46,1045,small_world,"{""k"": 6, ""rewiring_p"": 0.05}",300,2.14,2.2,2.0,1.0,0.08,0.03,0.08,random,logit,0.2,none,24,1,True,0.0,0.0276,0,,,0,0,0.0,small_world,mid_seed
+47,1046,small_world,"{""k"": 6, ""rewiring_p"": 0.05}",300,2.14,2.2,2.0,1.0,0.08,0.03,0.08,random,logit,0.2,none,24,1,True,0.0,0.0276,0,,,0,0,0.0,small_world,mid_seed
+48,1047,small_world,"{""k"": 6, ""rewiring_p"": 0.05}",300,2.14,2.2,2.0,1.0,0.08,0.03,0.08,random,logit,0.2,none,24,1,True,0.0,0.0276,0,,,0,0,0.0,small_world,mid_seed
+49,1048,small_world,"{""k"": 6, ""rewiring_p"": 0.05}",300,2.14,2.2,2.0,1.0,0.08,0.03,0.08,random,logit,0.2,none,24,1,True,0.0,0.0276,0,,,0,0,0.0,small_world,mid_seed
+50,1049,small_world,"{""k"": 6, ""rewiring_p"": 0.05}",300,2.12,2.2,2.0,1.0,0.08,0.04,0.12,random,logit,0.2,none,36,1,True,0.0,0.0368,0,,,0,0,0.0,small_world,high_seed
+51,1050,small_world,"{""k"": 6, ""rewiring_p"": 0.05}",300,2.12,2.2,2.0,1.0,0.08,0.04,0.12,random,logit,0.2,none,36,2,True,0.0,0.03434666666666667,0,,,0,0,0.0,small_world,high_seed
+52,1051,small_world,"{""k"": 6, ""rewiring_p"": 0.05}",300,2.12,2.2,2.0,1.0,0.08,0.04,0.12,random,logit,0.2,none,36,11,True,1.0,0.3485049219783021,1,6.0,8.0,1,300,300.0,small_world,high_seed
+53,1052,small_world,"{""k"": 6, ""rewiring_p"": 0.05}",300,2.12,2.2,2.0,1.0,0.08,0.04,0.12,random,logit,0.2,none,36,2,True,0.0,0.034592,0,,,0,0,0.0,small_world,high_seed
+54,1053,small_world,"{""k"": 6, ""rewiring_p"": 0.05}",300,2.12,2.2,2.0,1.0,0.08,0.04,0.12,random,logit,0.2,none,36,1,True,0.0,0.0368,0,,,0,0,0.0,small_world,high_seed
+55,1054,small_world,"{""k"": 6, ""rewiring_p"": 0.05}",300,2.12,2.2,2.0,1.0,0.08,0.04,0.12,random,logit,0.2,none,36,1,True,0.0,0.0368,0,,,0,0,0.0,small_world,high_seed
+56,1055,small_world,"{""k"": 6, ""rewiring_p"": 0.05}",300,2.12,2.2,2.0,1.0,0.08,0.04,0.12,random,logit,0.2,none,36,1,True,0.0,0.0368,0,,,0,0,0.0,small_world,high_seed
+57,1056,small_world,"{""k"": 6, ""rewiring_p"": 0.05}",300,2.12,2.2,2.0,1.0,0.08,0.04,0.12,random,logit,0.2,none,36,12,True,1.0,0.35790422958046414,1,7.0,9.0,1,300,300.0,small_world,high_seed
+58,1057,small_world,"{""k"": 6, ""rewiring_p"": 0.05}",300,2.12,2.2,2.0,1.0,0.08,0.04,0.12,random,logit,0.2,none,36,1,True,0.0,0.0368,0,,,0,0,0.0,small_world,high_seed
+59,1058,small_world,"{""k"": 6, ""rewiring_p"": 0.05}",300,2.12,2.2,2.0,1.0,0.08,0.04,0.12,random,logit,0.2,none,36,1,True,0.0,0.0368,0,,,0,0,0.0,small_world,high_seed
+60,1059,erdos_renyi,"{""p"": 0.05}",300,2.16,2.2,2.0,1.0,0.08,0.02,0.05,random,logit,0.2,none,15,1,True,0.0,0.0184,0,,,0,0,0.0,erdos_renyi,low_seed
+61,1060,erdos_renyi,"{""p"": 0.05}",300,2.16,2.2,2.0,1.0,0.08,0.02,0.05,random,logit,0.2,none,15,1,True,0.0,0.0184,0,,,0,0,0.0,erdos_renyi,low_seed
+62,1061,erdos_renyi,"{""p"": 0.05}",300,2.16,2.2,2.0,1.0,0.08,0.02,0.05,random,logit,0.2,none,15,1,True,0.0,0.0184,0,,,0,0,0.0,erdos_renyi,low_seed
+63,1062,erdos_renyi,"{""p"": 0.05}",300,2.16,2.2,2.0,1.0,0.08,0.02,0.05,random,logit,0.2,none,15,1,True,0.0,0.0184,0,,,0,0,0.0,erdos_renyi,low_seed
+64,1063,erdos_renyi,"{""p"": 0.05}",300,2.16,2.2,2.0,1.0,0.08,0.02,0.05,random,logit,0.2,none,15,1,True,0.0,0.0184,0,,,0,0,0.0,erdos_renyi,low_seed
+65,1064,erdos_renyi,"{""p"": 0.05}",300,2.16,2.2,2.0,1.0,0.08,0.02,0.05,random,logit,0.2,none,15,1,True,0.0,0.0184,0,,,0,0,0.0,erdos_renyi,low_seed
+66,1065,erdos_renyi,"{""p"": 0.05}",300,2.16,2.2,2.0,1.0,0.08,0.02,0.05,random,logit,0.2,none,15,1,True,0.0,0.0184,0,,,0,0,0.0,erdos_renyi,low_seed
+67,1066,erdos_renyi,"{""p"": 0.05}",300,2.16,2.2,2.0,1.0,0.08,0.02,0.05,random,logit,0.2,none,15,1,True,0.0,0.0184,0,,,0,0,0.0,erdos_renyi,low_seed
+68,1067,erdos_renyi,"{""p"": 0.05}",300,2.16,2.2,2.0,1.0,0.08,0.02,0.05,random,logit,0.2,none,15,1,True,0.0,0.0184,0,,,0,0,0.0,erdos_renyi,low_seed
+69,1068,erdos_renyi,"{""p"": 0.05}",300,2.16,2.2,2.0,1.0,0.08,0.02,0.05,random,logit,0.2,none,15,1,True,0.0,0.0184,0,,,0,0,0.0,erdos_renyi,low_seed
+70,1069,erdos_renyi,"{""p"": 0.05}",300,2.14,2.2,2.0,1.0,0.08,0.03,0.08,random,logit,0.2,none,24,1,True,0.0,0.0276,0,,,0,0,0.0,erdos_renyi,mid_seed
+71,1070,erdos_renyi,"{""p"": 0.05}",300,2.14,2.2,2.0,1.0,0.08,0.03,0.08,random,logit,0.2,none,24,1,True,0.0,0.0276,0,,,0,0,0.0,erdos_renyi,mid_seed
+72,1071,erdos_renyi,"{""p"": 0.05}",300,2.14,2.2,2.0,1.0,0.08,0.03,0.08,random,logit,0.2,none,24,1,True,0.0,0.0276,0,,,0,0,0.0,erdos_renyi,mid_seed
+73,1072,erdos_renyi,"{""p"": 0.05}",300,2.14,2.2,2.0,1.0,0.08,0.03,0.08,random,logit,0.2,none,24,1,True,0.0,0.0276,0,,,0,0,0.0,erdos_renyi,mid_seed
+74,1073,erdos_renyi,"{""p"": 0.05}",300,2.14,2.2,2.0,1.0,0.08,0.03,0.08,random,logit,0.2,none,24,1,True,0.0,0.0276,0,,,0,0,0.0,erdos_renyi,mid_seed
+75,1074,erdos_renyi,"{""p"": 0.05}",300,2.14,2.2,2.0,1.0,0.08,0.03,0.08,random,logit,0.2,none,24,1,True,0.0,0.0276,0,,,0,0,0.0,erdos_renyi,mid_seed
+76,1075,erdos_renyi,"{""p"": 0.05}",300,2.14,2.2,2.0,1.0,0.08,0.03,0.08,random,logit,0.2,none,24,1,True,0.0,0.0276,0,,,0,0,0.0,erdos_renyi,mid_seed
+77,1076,erdos_renyi,"{""p"": 0.05}",300,2.14,2.2,2.0,1.0,0.08,0.03,0.08,random,logit,0.2,none,24,1,True,0.0,0.0276,0,,,0,0,0.0,erdos_renyi,mid_seed
+78,1077,erdos_renyi,"{""p"": 0.05}",300,2.14,2.2,2.0,1.0,0.08,0.03,0.08,random,logit,0.2,none,24,1,True,0.0,0.0276,0,,,0,0,0.0,erdos_renyi,mid_seed
+79,1078,erdos_renyi,"{""p"": 0.05}",300,2.14,2.2,2.0,1.0,0.08,0.03,0.08,random,logit,0.2,none,24,1,True,0.0,0.0276,0,,,0,0,0.0,erdos_renyi,mid_seed
+80,1079,erdos_renyi,"{""p"": 0.05}",300,2.12,2.2,2.0,1.0,0.08,0.04,0.12,random,logit,0.2,none,36,1,True,0.0,0.0368,0,,,0,0,0.0,erdos_renyi,high_seed
+81,1080,erdos_renyi,"{""p"": 0.05}",300,2.12,2.2,2.0,1.0,0.08,0.04,0.12,random,logit,0.2,none,36,1,True,0.0,0.0368,0,,,0,0,0.0,erdos_renyi,high_seed
+82,1081,erdos_renyi,"{""p"": 0.05}",300,2.12,2.2,2.0,1.0,0.08,0.04,0.12,random,logit,0.2,none,36,1,True,0.0,0.0368,0,,,0,0,0.0,erdos_renyi,high_seed
+83,1082,erdos_renyi,"{""p"": 0.05}",300,2.12,2.2,2.0,1.0,0.08,0.04,0.12,random,logit,0.2,none,36,1,True,0.0,0.0368,0,,,0,0,0.0,erdos_renyi,high_seed
+84,1083,erdos_renyi,"{""p"": 0.05}",300,2.12,2.2,2.0,1.0,0.08,0.04,0.12,random,logit,0.2,none,36,1,True,0.0,0.0368,0,,,0,0,0.0,erdos_renyi,high_seed
+85,1084,erdos_renyi,"{""p"": 0.05}",300,2.12,2.2,2.0,1.0,0.08,0.04,0.12,random,logit,0.2,none,36,1,True,0.0,0.0368,0,,,0,0,0.0,erdos_renyi,high_seed
+86,1085,erdos_renyi,"{""p"": 0.05}",300,2.12,2.2,2.0,1.0,0.08,0.04,0.12,random,logit,0.2,none,36,1,True,0.0,0.0368,0,,,0,0,0.0,erdos_renyi,high_seed
+87,1086,erdos_renyi,"{""p"": 0.05}",300,2.12,2.2,2.0,1.0,0.08,0.04,0.12,random,logit,0.2,none,36,1,True,0.0,0.0368,0,,,0,0,0.0,erdos_renyi,high_seed
+88,1087,erdos_renyi,"{""p"": 0.05}",300,2.12,2.2,2.0,1.0,0.08,0.04,0.12,random,logit,0.2,none,36,1,True,0.0,0.0368,0,,,0,0,0.0,erdos_renyi,high_seed
+89,1088,erdos_renyi,"{""p"": 0.05}",300,2.12,2.2,2.0,1.0,0.08,0.04,0.12,random,logit,0.2,none,36,6,True,1.0,0.26243238327637336,1,3.0,4.0,1,300,300.0,erdos_renyi,high_seed
+90,1089,barabasi_albert,"{""m"": 2}",300,2.16,2.2,2.0,1.0,0.08,0.02,0.05,random,logit,0.2,none,15,1,True,0.0,0.0184,0,,,0,0,0.0,barabasi_albert,low_seed
+91,1090,barabasi_albert,"{""m"": 2}",300,2.16,2.2,2.0,1.0,0.08,0.02,0.05,random,logit,0.2,none,15,1,True,0.0,0.0184,0,,,0,0,0.0,barabasi_albert,low_seed
+92,1091,barabasi_albert,"{""m"": 2}",300,2.16,2.2,2.0,1.0,0.08,0.02,0.05,random,logit,0.2,none,15,1,True,0.0,0.0184,0,,,0,0,0.0,barabasi_albert,low_seed
+93,1092,barabasi_albert,"{""m"": 2}",300,2.16,2.2,2.0,1.0,0.08,0.02,0.05,random,logit,0.2,none,15,1,True,0.0,0.0184,0,,,0,0,0.0,barabasi_albert,low_seed
+94,1093,barabasi_albert,"{""m"": 2}",300,2.16,2.2,2.0,1.0,0.08,0.02,0.05,random,logit,0.2,none,15,1,True,0.0,0.0184,0,,,0,0,0.0,barabasi_albert,low_seed
+95,1094,barabasi_albert,"{""m"": 2}",300,2.16,2.2,2.0,1.0,0.08,0.02,0.05,random,logit,0.2,none,15,1,True,0.0,0.0184,0,,,0,0,0.0,barabasi_albert,low_seed
+96,1095,barabasi_albert,"{""m"": 2}",300,2.16,2.2,2.0,1.0,0.08,0.02,0.05,random,logit,0.2,none,15,1,True,0.0,0.0184,0,,,0,0,0.0,barabasi_albert,low_seed
+97,1096,barabasi_albert,"{""m"": 2}",300,2.16,2.2,2.0,1.0,0.08,0.02,0.05,random,logit,0.2,none,15,1,True,0.0,0.0184,0,,,0,0,0.0,barabasi_albert,low_seed
+98,1097,barabasi_albert,"{""m"": 2}",300,2.16,2.2,2.0,1.0,0.08,0.02,0.05,random,logit,0.2,none,15,1,True,0.0,0.0184,0,,,0,0,0.0,barabasi_albert,low_seed
+99,1098,barabasi_albert,"{""m"": 2}",300,2.16,2.2,2.0,1.0,0.08,0.02,0.05,random,logit,0.2,none,15,1,True,0.0,0.0184,0,,,0,0,0.0,barabasi_albert,low_seed
+100,1099,barabasi_albert,"{""m"": 2}",300,2.14,2.2,2.0,1.0,0.08,0.03,0.08,random,logit,0.2,none,24,1,True,0.0,0.0276,0,,,0,0,0.0,barabasi_albert,mid_seed
+101,1100,barabasi_albert,"{""m"": 2}",300,2.14,2.2,2.0,1.0,0.08,0.03,0.08,random,logit,0.2,none,24,1,True,0.0,0.0276,0,,,0,0,0.0,barabasi_albert,mid_seed
+102,1101,barabasi_albert,"{""m"": 2}",300,2.14,2.2,2.0,1.0,0.08,0.03,0.08,random,logit,0.2,none,24,1,True,0.0,0.0276,0,,,0,0,0.0,barabasi_albert,mid_seed
+103,1102,barabasi_albert,"{""m"": 2}",300,2.14,2.2,2.0,1.0,0.08,0.03,0.08,random,logit,0.2,none,24,1,True,0.0,0.0276,0,,,0,0,0.0,barabasi_albert,mid_seed
+104,1103,barabasi_albert,"{""m"": 2}",300,2.14,2.2,2.0,1.0,0.08,0.03,0.08,random,logit,0.2,none,24,1,True,0.0,0.0276,0,,,0,0,0.0,barabasi_albert,mid_seed
+105,1104,barabasi_albert,"{""m"": 2}",300,2.14,2.2,2.0,1.0,0.08,0.03,0.08,random,logit,0.2,none,24,1,True,0.0,0.0276,0,,,0,0,0.0,barabasi_albert,mid_seed
+106,1105,barabasi_albert,"{""m"": 2}",300,2.14,2.2,2.0,1.0,0.08,0.03,0.08,random,logit,0.2,none,24,2,True,0.0,0.02563733333333333,0,,,0,0,0.0,barabasi_albert,mid_seed
+107,1106,barabasi_albert,"{""m"": 2}",300,2.14,2.2,2.0,1.0,0.08,0.03,0.08,random,logit,0.2,none,24,1,True,0.0,0.0276,0,,,0,0,0.0,barabasi_albert,mid_seed
+108,1107,barabasi_albert,"{""m"": 2}",300,2.14,2.2,2.0,1.0,0.08,0.03,0.08,random,logit,0.2,none,24,1,True,0.0,0.0276,0,,,0,0,0.0,barabasi_albert,mid_seed
+109,1108,barabasi_albert,"{""m"": 2}",300,2.14,2.2,2.0,1.0,0.08,0.03,0.08,random,logit,0.2,none,24,1,True,0.0,0.0276,0,,,0,0,0.0,barabasi_albert,mid_seed
+110,1109,barabasi_albert,"{""m"": 2}",300,2.12,2.2,2.0,1.0,0.08,0.04,0.12,random,logit,0.2,none,36,1,True,0.0,0.0368,0,,,0,0,0.0,barabasi_albert,high_seed
+111,1110,barabasi_albert,"{""m"": 2}",300,2.12,2.2,2.0,1.0,0.08,0.04,0.12,random,logit,0.2,none,36,1,True,0.0,0.0368,0,,,0,0,0.0,barabasi_albert,high_seed
+112,1111,barabasi_albert,"{""m"": 2}",300,2.12,2.2,2.0,1.0,0.08,0.04,0.12,random,logit,0.2,none,36,2,True,0.0,0.034592,0,,,0,0,0.0,barabasi_albert,high_seed
+113,1112,barabasi_albert,"{""m"": 2}",300,2.12,2.2,2.0,1.0,0.08,0.04,0.12,random,logit,0.2,none,36,1,True,0.0,0.0368,0,,,0,0,0.0,barabasi_albert,high_seed
+114,1113,barabasi_albert,"{""m"": 2}",300,2.12,2.2,2.0,1.0,0.08,0.04,0.12,random,logit,0.2,none,36,1,True,0.0,0.0368,0,,,0,0,0.0,barabasi_albert,high_seed
+115,1114,barabasi_albert,"{""m"": 2}",300,2.12,2.2,2.0,1.0,0.08,0.04,0.12,random,logit,0.2,none,36,1,True,0.0,0.0368,0,,,0,0,0.0,barabasi_albert,high_seed
+116,1115,barabasi_albert,"{""m"": 2}",300,2.12,2.2,2.0,1.0,0.08,0.04,0.12,random,logit,0.2,none,36,1,True,0.0,0.0368,0,,,0,0,0.0,barabasi_albert,high_seed
+117,1116,barabasi_albert,"{""m"": 2}",300,2.12,2.2,2.0,1.0,0.08,0.04,0.12,random,logit,0.2,none,36,1,True,0.0,0.0368,0,,,0,0,0.0,barabasi_albert,high_seed
+118,1117,barabasi_albert,"{""m"": 2}",300,2.12,2.2,2.0,1.0,0.08,0.04,0.12,random,logit,0.2,none,36,3,True,0.0,0.032069973333333335,0,,,0,0,0.0,barabasi_albert,high_seed
+119,1118,barabasi_albert,"{""m"": 2}",300,2.12,2.2,2.0,1.0,0.08,0.04,0.12,random,logit,0.2,none,36,1,True,0.0,0.0368,0,,,0,0,0.0,barabasi_albert,high_seed
