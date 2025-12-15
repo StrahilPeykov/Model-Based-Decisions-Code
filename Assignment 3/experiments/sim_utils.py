@@ -275,6 +275,9 @@ def run_simulation(
     prev_I = None
     converged = False
     steps_run = 0
+    t_high = None
+    t_half = None
+
 
     for t in range(config.T):
         if policy is not None:
@@ -282,6 +285,12 @@ def run_simulation(
         model.step()
         X = model.get_adoption_fraction()
         I = model.infrastructure
+
+        if t_half is None and X >= 0.5:
+            t_half = t
+        if t_high is None and X >= 0.8:
+            t_high = t
+
 
         if record_series:
             timeseries.append({"run_id": run_id, "time": t, "X": X, "I": I, "policy": policy_label})
@@ -298,6 +307,7 @@ def run_simulation(
             converged = True
             break
 
+    X_final = float(model.get_adoption_fraction())
     result_row = {
         "run_id": run_id,
         "seed": seed,
@@ -316,10 +326,13 @@ def run_simulation(
         "tau": config.tau,
         "policy": policy_label,
         "seeded_nodes": len(seeded_nodes),
-        "X_final": float(model.get_adoption_fraction()),
-        "I_final": float(model.infrastructure),
         "steps_run": steps_run,
         "converged": converged,
+        "X_final": X_final,
+        "I_final": float(model.infrastructure),
+        "high_adoption": int(X_final > 0.8),
+        "t_half": t_half,
+        "t_high": t_high,
     }
 
     return result_row, timeseries if record_series else None

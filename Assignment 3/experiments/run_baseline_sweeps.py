@@ -10,7 +10,7 @@ from __future__ import annotations
 
 import argparse
 from pathlib import Path
-from typing import Dict, List
+from typing import Dict, List, Optional
 
 import numpy as np
 import pandas as pd
@@ -29,6 +29,13 @@ def _network_kwargs_from_args(args: argparse.Namespace) -> Dict:
         return {}
     return {}
 
+def _first_crossing_time(series: Optional[List[float]], threshold: float) -> Optional[int]:
+    if series is None:
+        return None
+    for t, x in enumerate(series):
+        if x >= threshold:
+            return t
+    return None
 
 def main():
     parser = argparse.ArgumentParser(description="Baseline sweep over X0, I0, beta_I.")
@@ -83,9 +90,9 @@ def main():
                         init_method=args.init_method,
                         strategy_choice_func=args.strategy,
                         tau=args.tau,
-                        collect_series=False,
+                        collect_series=True,
                     )
-                    row, _ = run_simulation(
+                    row, series = run_simulation(
                         config,
                         seed=seed,
                         policy_config=None,
@@ -93,15 +100,49 @@ def main():
                         convergence_tol=1e-3,
                         patience=25,
                     )
-                    row.update({"X0": float(X0), "I0_grid": float(I0), "beta_I_grid": beta_I})
+                    row.update({"X0": float(X0), "I0_grid": float(I0), "beta_I_grid": float(beta_I)})
+
+                    if "high_adoption" not in row:
+                        x_final = float(row.get("X_final", np.nan))
+                        row["high_adoption"] = int(np.isfinite(x_final) and x_final > 0.8)
+
+                    if "t_high" not in row:
+                        row["t_high"] = _first_crossing_time(series, 0.8)
+
+                    if "t_half" not in row:
+                        row["t_half"] = _first_crossing_time(series, 0.5)
+
                     rows.append(row)
                     run_id += 1
 
     out_path = Path(args.output)
     out_path.parent.mkdir(parents=True, exist_ok=True)
-    pd.DataFrame(rows).to_csv(out_path, index=False)
+    df = pd.DataFrame(rows)
+    df.to_csv(out_path, index=False)
     print(f"Saved {len(rows)} rows to {out_path}")
 
+    # Summary table: probability of high adoption + speed proxy + bistability flag
+    required_cols = {"run_id", "X_final", "high_adoption", "beta_I_grid", "X0", "I0_grid"}
+    missing = required_cols.difference(df.columns)
+    if missing:
+        raise ValueError(f"Missing required columns for summary computation: {sorted(missing)}")
+
+    group_cols = ["beta_I_grid", "X0", "I0_grid"]
+    summary = (
+        df.groupby(group_cols, dropna=False)
+        .agg(
+            n=("run_id", "count"),
+            X_mean=("X_final", "mean"),
+            X_std=("X_final", "std"),
+            p_high=("high_adoption", "mean"),
+            t_high_mean=("t_high", "mean"),
+        )
+        .reset_index()
+    )
+    summary["bistable"] = ((summary["p_high"] >= 0.2) & (summary["p_high"] <= 0.8)).astype(int)
+
+    summary_path = out_path.with_name(out_path.stem + "_summary.csv")
+    summary.to_csv(summary_path, index=False)
 
 if __name__ == "__main__":
     main()
