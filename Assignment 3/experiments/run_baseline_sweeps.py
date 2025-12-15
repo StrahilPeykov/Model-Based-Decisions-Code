@@ -57,7 +57,7 @@ def main():
     parser.add_argument("--k", type=int, default=6, help="Mean degree (small-world).")
     parser.add_argument("--rewiring-p", type=float, default=0.05, help="Rewiring prob (small-world).")
     parser.add_argument("--ratio", type=float, default=1.3, help="Initial payoff ratio a_I/b.")
-    parser.add_argument("--beta-list", type=float, nargs="+", default=[0.7, 0.8, 0.9], help="beta_I values to sweep.")
+    parser.add_argument("--beta-list", type=float, nargs="+", default=[0.6, 0.8, 1.0], help="beta_I values to sweep.")
     parser.add_argument("--b", type=float, default=1.0, help="Defection payoff.")
     parser.add_argument("--g-i", type=float, default=0.08, help="Infrastructure adjustment rate.")
     parser.add_argument("--x0-min", type=float, default=0.04)
