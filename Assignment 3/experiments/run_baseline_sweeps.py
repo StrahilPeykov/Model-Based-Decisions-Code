@@ -23,7 +23,7 @@ from typing import Dict, List, Optional
 import numpy as np
 import pandas as pd
 
-from sim_utils import SimulationConfig, run_simulation
+from .sim_utils import SimulationConfig, run_simulation
 
 
 def _network_kwargs_from_args(args: argparse.Namespace) -> Dict:
@@ -37,7 +37,7 @@ def _network_kwargs_from_args(args: argparse.Namespace) -> Dict:
         return {}
     return {}
 
-def _first_crossing_time(series: Optional[List[float]], threshold: float) -> Optional[int]:
+def _first_crossing_time(series: Optional[List[Dict[str, float]]], threshold: float) -> Optional[int]:
     if series is None:
         return None
     for t, x in enumerate(series):

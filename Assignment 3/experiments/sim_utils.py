@@ -20,7 +20,7 @@ if str(parent_dir) not in sys.path:
 
 import json
 from dataclasses import dataclass, field
-from typing import Callable, Dict, List, Optional, Tuple
+from typing import Callable, Dict, List, Optional, Tuple, Union
 
 import networkx as nx
 import numpy as np
@@ -31,7 +31,7 @@ from mesa.datacollection import DataCollector
 
 from ev_core import EVAgent
 from ev_experiments import policy_subsidy_factory, policy_infrastructure_boost_factory
-from experiments.networks import build_network, rank_nodes_by_centrality, select_top_fraction
+from .networks import build_network, rank_nodes_by_centrality, select_top_fraction
 
 
 def _clip01(x: float) -> float:
@@ -257,7 +257,7 @@ def run_simulation(
     run_id: Optional[int] = None,
     convergence_tol: float = 1e-3,
     patience: int = 30,
-    record_series: bool | None = None,
+    record_series: Optional[bool] = None,
 ) -> Tuple[Dict, Optional[List[Dict[str, float]]]]:
     """Run one simulation and return (summary_row, timeseries_rows?)."""
     record_series = config.collect_series if record_series is None else record_series
