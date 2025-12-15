@@ -352,7 +352,7 @@ def main():
                         f"(baseline $p_{{high}}$={base_ph:.2f})"
                     )
                     ax.set_ylabel("$\\Delta p_{high}$")
-                    ax.set_xlabel("Policy (short label)")
+                    ax.set_xlabel("Policy")
                     ax.set_ylim(-1, 1)
 
                 _save_png(fig, figdir, "fig3_policy_effect_size")
