@@ -1,123 +1,178 @@
+"""
+Generate plots from experiment results.
+
+Produces figures:
+- Figure 1: Baseline phase diagram
+- Figure 2: Network structure effects
+- Figure 3: Policy effectiveness & efficiency
+- Figure 4: Policy timing & cost
+"""
+
+from __future__ import annotations
+
+from pathlib import Path
+import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
 import seaborn as sns
-from pathlib import Path
 
-sns.set_theme(
-    style="whitegrid",
-    context="paper",
-    font_scale=1.2,
-)
+# ----------------------------
+# Paths
+# ----------------------------
+RESULTS = Path("results")
+FIGDIR = Path("figures")
+FIGDIR.mkdir(exist_ok=True, parents=True)
 
-Path("figures").mkdir(exist_ok=True)
+plt.style.use("seaborn-v0_8-whitegrid")
+sns.set_palette("husl")
 
-base = pd.read_csv("results/baseline_sweep_summary.csv")
+# ----------------------------
+# Load data (EXACT files you produce)
+# ----------------------------
+baseline_summary = pd.read_csv(RESULTS / "baseline_sweep_summary.csv")
+baseline_raw = pd.read_csv(RESULTS / "baseline_sweep.csv")
 
-heat = base.pivot_table(
-    index="X0",
-    columns="I0_grid",
-    values="p_high"
-)
+network_runs = pd.read_csv(RESULTS / "network_comparison.csv")
+network_summary = pd.read_csv(RESULTS / "network_comparison_summary.csv")
 
-plt.figure(figsize=(6, 5))
-ax = sns.heatmap(
-    heat,
-    cmap="viridis",
-    vmin=0,
-    vmax=1,
-    cbar_kws={"label": "P(high EV adoption)"},
-)
+policy_runs = pd.read_csv(RESULTS / "policy_runs.csv")
+policy_summary = pd.read_csv(RESULTS / "policy_runs_summary.csv")
 
-ax.set_xlabel("Initial infrastructure $I_0$")
-ax.set_ylabel("Initial EV adoption $X_0$")
-ax.set_title("Baseline bistability and tipping regimes")
+# ----------------------------
+# FIGURE 1 — Baseline phase diagram
+# ----------------------------
+beta_I = 2.0
+df = baseline_summary[baseline_summary["beta_I_grid"] == beta_I]
 
-plt.tight_layout()
-plt.savefig("figures/fig1_baseline_bistability.png", dpi=300)
-plt.close()
+fig, axes = plt.subplots(2, 2, figsize=(12, 10), constrained_layout=True)
 
-net = pd.read_csv("results/network_comparison_summary.csv")
+# A: p_high
+piv = df.pivot(index="X0", columns="I0_grid", values="p_high")
+im = axes[0, 0].imshow(piv.values, origin="lower", vmin=0, vmax=1, cmap="viridis")
+axes[0, 0].set_title("P(high adoption)")
+axes[0, 0].set_xlabel("I₀")
+axes[0, 0].set_ylabel("X₀")
+plt.colorbar(im, ax=axes[0, 0])
 
-plt.figure(figsize=(5.5, 4))
-ax = sns.barplot(
-    data=net,
+# B: bistable
+if "bistable" in df.columns:
+    piv = df.pivot(index="X0", columns="I0_grid", values="bistable")
+    im = axes[0, 1].imshow(piv.values, origin="lower", cmap="binary")
+    axes[0, 1].set_title("Bistable region")
+    plt.colorbar(im, ax=axes[0, 1])
+
+# C: time to tipping
+if "t_high_mean" in df.columns:
+    piv = df.pivot(index="X0", columns="I0_grid", values="t_high_mean")
+    im = axes[1, 0].imshow(piv.values, origin="lower", cmap="plasma")
+    axes[1, 0].set_title("Mean time to X ≥ 0.8")
+    plt.colorbar(im, ax=axes[1, 0])
+
+# D: variability
+if "X_std" in df.columns:
+    piv = df.pivot(index="X0", columns="I0_grid", values="X_std")
+    im = axes[1, 1].imshow(piv.values, origin="lower", cmap="inferno")
+    axes[1, 1].set_title("Std. dev. of final adoption")
+    plt.colorbar(im, ax=axes[1, 1])
+
+fig.savefig(FIGDIR / "fig1_baseline_phase.png", dpi=300)
+plt.close(fig)
+
+# ----------------------------
+# FIGURE 2 — Network structure effects
+# ----------------------------
+fig, axes = plt.subplots(1, 3, figsize=(15, 4), constrained_layout=True)
+
+# A: p_high
+sns.barplot(
+    data=network_summary,
     x="network_label",
     y="p_high",
-    errorbar="sd",
+    ax=axes[0],
 )
+axes[0].set_ylim(0, 1)
+axes[0].set_title("A: Adoption probability")
 
-ax.set_xlabel("Network topology")
-ax.set_ylabel("P(high EV adoption)")
-ax.set_title("Effect of network structure on EV diffusion")
+# B: speed
+if "t_high_mean" in network_summary.columns:
+    sns.barplot(
+        data=network_summary,
+        x="network_label",
+        y="t_high_mean",
+        ax=axes[1],
+    )
+    axes[1].set_title("B: Time to tipping")
 
-plt.tight_layout()
-plt.savefig("figures/fig2_network_effects.png", dpi=300)
-plt.close()
+# C: clustering
+sns.barplot(
+    data=network_summary,
+    x="network_label",
+    y="cluster_max_mean",
+    ax=axes[2],
+)
+axes[2].set_title("C: Cluster size")
 
-pol = pd.read_csv("results/policy_runs_summary.csv")
+fig.savefig(FIGDIR / "fig2_network_effects.png", dpi=300)
+plt.close(fig)
 
-plot_data = pol.copy()
+# ----------------------------
+# FIGURE 3 — Policy effectiveness & efficiency
+# ----------------------------
+fig, axes = plt.subplots(1, 2, figsize=(14, 5), constrained_layout=True)
 
-plt.figure(figsize=(7, 4))
-ax = sns.barplot(
-    data=plot_data,
+# A: effectiveness
+sns.barplot(
+    data=policy_summary,
     x="policy_label",
     y="p_high",
+    hue="network_label",
+    ax=axes[0],
 )
+axes[0].set_ylim(0, 1)
+axes[0].set_title("Policy effectiveness")
 
-ax.axhline(
-    y=pol.loc[pol["policy_label"] == "baseline", "p_high"].mean(),
-    color="black",
-    linestyle="--",
-    label="Baseline",
-)
+# B: efficiency
+if "p_high_per_cost" in policy_summary.columns:
+    sns.barplot(
+        data=policy_summary,
+        x="policy_label",
+        y="p_high_per_cost",
+        hue="network_label",
+        ax=axes[1],
+    )
+    axes[1].set_title("Policy efficiency")
 
-ax.set_ylabel("P(high EV adoption)")
-ax.set_xlabel("Policy intervention")
-ax.set_title("Effectiveness of targeted and timed interventions")
-ax.legend()
+for ax in axes:
+    ax.tick_params(axis="x", rotation=30)
 
-plt.xticks(rotation=90)
-plt.tight_layout()
-plt.savefig("figures/fig3_policy_effectiveness.png", dpi=300)
-plt.close()
+fig.savefig(FIGDIR / "fig3_policy_effectiveness.png", dpi=300)
+plt.close(fig)
 
+# ----------------------------
+# FIGURE 4 — Policy timing & cost
+# ----------------------------
+fig, axes = plt.subplots(1, 2, figsize=(14, 5), constrained_layout=True)
 
-pol_eff = pol[pol["policy_label"] != "baseline"].copy()
+# Timing
+if "policy_start" in policy_runs.columns:
+    sns.boxplot(
+        data=policy_runs,
+        x="policy_type",
+        y="policy_start",
+        ax=axes[0],
+    )
+    axes[0].set_title("Intervention timing")
 
-plt.figure(figsize=(5.5, 4))
-ax = sns.scatterplot(
-    data=pol_eff,
-    x="cost_mean",
-    y="p_high",
-    hue="policy_type",
-    s=70,
-)
-
-ax.set_xlabel("Policy cost (proxy)")
-ax.set_ylabel("P(high EV adoption)")
-ax.set_title("Policy cost–effectiveness frontier")
-
-plt.tight_layout()
-plt.savefig("figures/fig4_cost_effectiveness.png", dpi=300)
-plt.close()
-
-
-fail = pol_eff[pol_eff["ineffective"]]
-
-plt.figure(figsize=(4.5, 4))
-ax = sns.countplot(
-    data=fail,
+# Cost
+sns.boxplot(
+    data=policy_runs,
     x="policy_type",
+    y="policy_cost",
+    ax=axes[1],
 )
+axes[1].set_title("Policy cost (proxy)")
 
-ax.set_ylabel("Number of ineffective cases")
-ax.set_xlabel("Policy type")
-ax.set_title("Regimes where policy fails")
+fig.savefig(FIGDIR / "fig4_policy_cost_timing.png", dpi=300)
+plt.close(fig)
 
-plt.tight_layout()
-plt.savefig("figures/fig5_policy_failures.png", dpi=300)
-plt.close()
-
-
-
+print("All figures generated successfully.")

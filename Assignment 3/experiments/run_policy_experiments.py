@@ -30,15 +30,17 @@ from .sim_utils import SimulationConfig, run_simulation
 from .run_baseline_sweeps import _network_kwargs_from_args
 
 def _kwargs_for_type(net_type: str, args: argparse.Namespace) -> Dict:
+    n = args.n_nodes
     if net_type == "erdos_renyi":
-        return {"p": args.p}
+        return {"p": 6.0 / n}      
     if net_type == "barabasi_albert":
-        return {"m": args.m}
+        return {"m": 3}            
     if net_type == "small_world":
-        return {"k": args.k, "rewiring_p": args.rewiring_p}
+        return {"k": 6, "rewiring_p": args.rewiring_p}
     if net_type == "grid":
-        return {}
+        return {}                  
     return {}
+
 
 def _policy_cost(meta: Dict, n_nodes: int) -> float:
     """Cheap comparable cost proxy"""
@@ -116,64 +118,90 @@ def _load_scenarios(args: argparse.Namespace) -> List[Dict]:
     scenarios: List[Dict] = []
 
     if args.baseline_summary is None:
-        scenarios.append({"scenario_id": 0, "beta_I": args.beta_I, "X0": args.x0, "I0": args.i0})
+        scenarios.append(
+            {
+                "scenario_id": 0,
+                "scenario_type": "manual",
+                "beta_I": args.beta_I,
+                "X0": args.x0,
+                "I0": args.i0,
+            }
+        )
         return scenarios
-
-    if args.pick_bistable <= 0:
-        raise ValueError("--pick-bistable must be > 0 when --baseline-summary is provided.")
-
+    
     df = pd.read_csv(args.baseline_summary)
-    required = {"beta_I_grid", "X0", "I0_grid"}
+
+    required = {"beta_I_grid", "X0", "I0_grid", "p_high"}
     missing = required.difference(df.columns)
     if missing:
         raise ValueError(f"Baseline summary missing required columns: {sorted(missing)}")
 
-    if "bistable" in df.columns:
-        cand = df[df["bistable"] == 1].copy()
-    elif "p_high" in df.columns:
-        cand = df[(df["p_high"] >= 0.2) & (df["p_high"] <= 0.8)].copy()
+    bistable = df[(df["p_high"] >= 0.2) & (df["p_high"] <= 0.8)].copy()
+
+    if bistable.empty:
+        raise ValueError(
+            "No bistable scenarios found. "
+            "Re-run baseline sweeps with lower ratio / beta_I."
+        )
+
+    if args.pick_bistable > len(bistable):
+        raise ValueError(
+            f"Requested {args.pick_bistable} bistable scenarios, "
+            f"but only {len(bistable)} available."
+        )
+    
+    if "X_std" in bistable.columns:
+        bistable = bistable.sort_values("X_std", ascending=False)
     else:
-        raise ValueError("Baseline summary must have 'bistable' or 'p_high'.")
+        bistable = bistable.assign(
+            p_distance=(bistable["p_high"] - 0.5).abs()
+        ).sort_values("p_distance")
 
-    if cand.empty:
-        raise ValueError("No bistable/tipping rows found in baseline summary.")
+    bistable = bistable.head(args.pick_bistable)
 
-    if "X_std" in cand.columns:
-        cand = cand.sort_values("X_std", ascending=False)
-    else:
-        if "p_high" not in cand.columns:
-            raise ValueError("Need either 'X_std' or 'p_high' to rank scenarios.")
-        cand = cand.assign(p_distance=(cand["p_high"]-0.5).abs()).sort_values("p_distance", ascending=True)
-
-    selected = cand.head(args.pick_bistable)
-    for sid, (orig_idx, row) in enumerate(selected.iterrows()):
+    for sid, (_, row) in enumerate(bistable.iterrows()):
         scenarios.append(
             {
                 "scenario_id": sid,
-                "baseline_cell_id": int(orig_idx),
+                "scenario_type": "bistable",
+                "baseline_cell_id": int(row.name),
                 "beta_I": float(row["beta_I_grid"]),
                 "X0": float(row["X0"]),
                 "I0": float(row["I0_grid"]),
             }
         )
 
-    # tag hard regimes
-    hard = df[df["p_high"] < 0.1].copy()
-    hard = hard.sort_values("X_mean" if "X_mean" in df.columns else "X_final")
-    hard = hard.head(args.pick_hard)
+    next_id = len(scenarios)
 
-    for sid, (orig_idx, row) in enumerate(hard.iterrows(), start=len(scenarios)):
-        scenarios.append({
-            "scenario_id": sid,
-            "baseline_cell_id": int(orig_idx),
-            "beta_I": float(row["beta_I_grid"]),
-            "X0": float(row["X0"]),
-            "I0": float(row["I0_grid"]),
-            "scenario_type": "hard"
-        })
+    if args.pick_hard > 0:
+        hard = df[df["p_high"] < 0.2].copy()
 
-    print(f"Loaded {len(scenarios)} scenarios from {args.baseline_summary}")
+        if hard.empty:
+            print("WARNING: No hard regimes found; skipping hard controls.")
+        else:
+            hard = hard.sort_values("p_high").head(args.pick_hard)
+
+            for _, row in hard.iterrows():
+                scenarios.append(
+                    {
+                        "scenario_id": next_id,
+                        "scenario_type": "hard",
+                        "baseline_cell_id": int(row.name),
+                        "beta_I": float(row["beta_I_grid"]),
+                        "X0": float(row["X0"]),
+                        "I0": float(row["I0_grid"]),
+                    }
+                )
+                next_id += 1
+
+    print(
+        f"Loaded {len(scenarios)} scenarios "
+        f"({sum(s['scenario_type']=='bistable' for s in scenarios)} bistable, "
+        f"{sum(s['scenario_type']=='hard' for s in scenarios)} hard)"
+    )
+
     return scenarios
+
 
 def main():
     parser = argparse.ArgumentParser(description="Targeted/timed policy experiments.")
@@ -187,11 +215,11 @@ def main():
     parser.add_argument("--m", type=int, default=2)
     parser.add_argument("--k", type=int, default=6)
     parser.add_argument("--rewiring-p", type=float, default=0.05)
-    parser.add_argument("--ratio", type=float, default=1.8)
-    parser.add_argument("--beta-I", dest="beta_I", type=float, default=2.0)
+    parser.add_argument("--ratio", type=float, default=1.4)
+    parser.add_argument("--beta-I", dest="beta_I", type=float, default=1.0)
     parser.add_argument("--b", type=float, default=1.0)
     parser.add_argument("--g-i", type=float, default=0.08)
-    parser.add_argument("--i0", type=float, default=0.02)
+    parser.add_argument("--i0", type=float, default=0.03)
     parser.add_argument("--x0", type=float, default=0.08)
     parser.add_argument("--init-method", type=str, default="random")
     parser.add_argument("--strategy", type=str, default="imitate")

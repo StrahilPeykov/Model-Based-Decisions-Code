@@ -23,18 +23,17 @@ import pandas as pd
 
 from .sim_utils import SimulationConfig, run_simulation
 
-
 def _kwargs_for_type(net_type: str, args: argparse.Namespace) -> Dict:
+    n = args.n_nodes
     if net_type == "erdos_renyi":
-        return {"p": args.p}
+        return {"p": 6.0 / n}      
     if net_type == "barabasi_albert":
-        return {"m": args.m}
+        return {"m": 3}            
     if net_type == "small_world":
-        return {"k": args.k, "rewiring_p": args.rewiring_p}
+        return {"k": 6, "rewiring_p": args.rewiring_p}
     if net_type == "grid":
-        return {}
+        return {}                  
     return {}
-
 
 def main():
     parser = argparse.ArgumentParser(description="Compare network types.")
@@ -51,12 +50,12 @@ def main():
     parser.add_argument("--m", type=int, default=2, help="Edges per new node (BA).")
     parser.add_argument("--k", type=int, default=6, help="Mean degree (small-world).")
     parser.add_argument("--rewiring-p", type=float, default=0.05, help="Rewiring prob (small-world).")
-    parser.add_argument("--ratio", type=float, default=2.0)
-    parser.add_argument("--beta-I", dest="beta_I", type=float, default=2.0)
+    parser.add_argument("--ratio", type=float, default=1.4)
+    parser.add_argument("--beta-I", dest="beta_I", type=float, default=1.0)
     parser.add_argument("--b", type=float, default=1.0)
     parser.add_argument("--g-i", type=float, default=0.08)
-    parser.add_argument("--i0", type=float, default=0.05)
-    parser.add_argument("--x0", type=float, default=0.15)
+    parser.add_argument("--i0", type=float, default=0.03)
+    parser.add_argument("--x0", type=float, default=0.08)
     parser.add_argument("--init-method", type=str, default="random")
     parser.add_argument("--strategy", type=str, default="imitate")
     parser.add_argument("--tau", type=float, default=1.0)
