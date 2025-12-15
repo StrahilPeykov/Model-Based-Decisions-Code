@@ -13,7 +13,7 @@ from typing import Dict, List
 
 import pandas as pd
 
-from .sim_utils import SimulationConfig, run_simulation
+from sim_utils import SimulationConfig, run_simulation
 
 
 def _kwargs_for_type(net_type: str, args: argparse.Namespace) -> Dict:
